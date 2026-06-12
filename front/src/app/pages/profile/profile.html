@@ -1,0 +1,57 @@
+<div class="row justify-content-center mt-4">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        @if (auth.user(); as user) {
+          <div class="text-center mb-4">
+            <i class="bi bi-person-circle display-4" style="color: var(--primary)"></i>
+            <h3 class="mt-2 fw-bold">Mi perfil</h3>
+          </div>
+
+          <table class="table table-borderless mb-0">
+            <tbody>
+              <tr>
+                <th class="ps-0" style="width: 120px">ID</th>
+                <td><code>{{ user.id }}</code></td>
+              </tr>
+              <tr>
+                <th class="ps-0">Email</th>
+                <td><i class="bi bi-envelope me-1 text-muted"></i>{{ user.email }}</td>
+              </tr>
+              <tr>
+                <th class="ps-0">Rol</th>
+                <td>
+                  @if (user.role === 'admin') {
+                    <span class="badge bg-warning text-dark">
+                      <i class="bi bi-shield-check me-1"></i>Administrador
+                    </span>
+                  } @else {
+                    <span class="badge bg-info">
+                      <i class="bi bi-person me-1"></i>Usuario
+                    </span>
+                  }
+                </td>
+              </tr>
+              <tr>
+                <th class="ps-0">Registrado</th>
+                <td><i class="bi bi-calendar me-1 text-muted"></i>{{ user.createdAt | date:'medium' }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <hr />
+          <button class="btn btn-danger w-100" (click)="auth.logout()">
+            <i class="bi bi-box-arrow-right me-1"></i>Cerrar sesión
+          </button>
+        } @else {
+          <div class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-2 text-muted">Cargando perfil...</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<nav class="navbar navbar-expand-md d-none d-md-flex">
+  <div class="container">
+    <a class="navbar-brand fw-bold" routerLink="/">
+      <i class="bi bi-box-seam me-1" style="color: var(--primary)"></i>
+      Frontend API
+    </a>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        @if (auth.isAuthenticated()) {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+              <i class="bi bi-house me-1"></i>Inicio
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/products" routerLinkActive="active">
+              <i class="bi bi-box me-1"></i>Productos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/categories" routerLinkActive="active">
+              <i class="bi bi-tags me-1"></i>Categorías
+            </a>
+          </li>
+          @if (auth.isAdmin()) {
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/admin/users" routerLinkActive="active">
+                <i class="bi bi-shield-lock me-1"></i>Admin
+              </a>
+            </li>
+          }
+        }
+      </ul>
+
+      <ul class="navbar-nav">
+        @if (auth.isAuthenticated()) {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/profile" routerLinkActive="active">
+              <i class="bi bi-person-circle me-1"></i>
+              {{ auth.user()?.email }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" (click)="auth.logout(); $event.preventDefault()">
+              <i class="bi bi-box-arrow-right me-1"></i>Salir
+            </a>
+          </li>
+        } @else {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login" routerLinkActive="active">
+              <i class="bi bi-box-arrow-in-right me-1"></i>Ingresar
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/register" routerLinkActive="active">
+              <i class="bi bi-person-plus me-1"></i>Registrarse
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>

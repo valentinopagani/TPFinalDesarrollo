@@ -1,0 +1,77 @@
+.bottom-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background: rgba(15,23,42,.45);
+  animation: bsFadeIn .2s ease-out;
+}
+
+.bottom-sheet-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1051;
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: bsSlideUp .3s ease-out;
+  box-shadow: 0 -8px 30px rgba(0,0,0,.12);
+}
+
+.bottom-sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: var(--gray-300);
+  border-radius: 2px;
+  margin: .5rem auto 0;
+}
+
+.bottom-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem .5rem;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.bottom-sheet-title {
+  font-weight: 700;
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--gray-800);
+}
+
+.bottom-sheet-close {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--gray-400);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all var(--transition);
+}
+
+.bottom-sheet-close:hover {
+  background: var(--gray-100);
+  color: var(--gray-700);
+}
+
+.bottom-sheet-body {
+  padding: 1rem 1.25rem 1.5rem;
+}
+
+@keyframes bsFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes bsSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}

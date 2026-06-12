@@ -1,0 +1,65 @@
+<div class="row justify-content-center mt-5">
+  <div class="col-md-5 col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <div class="text-center mb-4">
+          <i class="bi bi-box-arrow-in-right display-5" style="color: var(--primary)"></i>
+          <h3 class="mt-2 fw-bold">Iniciar sesión</h3>
+        </div>
+
+        @if (error) {
+          <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            {{ error }}
+          </div>
+        }
+
+        <form (ngSubmit)="submit()" #form="ngForm">
+          <div class="mb-3">
+            <label for="email" class="form-label fw-medium">Email</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+              <input
+                id="email"
+                type="email"
+                class="form-control"
+                [(ngModel)]="email"
+                name="email"
+                required
+                email
+                placeholder="ejemplo@correo.com"
+              />
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label for="password" class="form-label fw-medium">Contraseña</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
+              <input
+                id="password"
+                type="password"
+                class="form-control"
+                [(ngModel)]="password"
+                name="password"
+                required
+                placeholder="••••••••"
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100" [disabled]="form.invalid || loading()">
+            @if (loading()) {
+              <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+            }
+            Ingresar
+          </button>
+        </form>
+
+        <p class="mt-4 text-center text-muted mb-0">
+          ¿No tenés cuenta? <a routerLink="/register">Registrate</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="bottom-sheet-backdrop" (click)="onBackdropClick()"></div>
+<div class="bottom-sheet-panel" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+  <div class="bottom-sheet-handle d-md-none"></div>
+  <div class="bottom-sheet-header">
+    <h5 class="bottom-sheet-title">{{ title }}</h5>
+    <button class="bottom-sheet-close" (click)="close.emit()" aria-label="Cerrar">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+  <div class="bottom-sheet-body">
+    <ng-content />
+  </div>
+</div>

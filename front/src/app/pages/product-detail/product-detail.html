@@ -1,0 +1,70 @@
+<div class="row justify-content-center">
+  <div class="col-lg-6">
+    <a routerLink="/products" class="btn btn-outline-secondary mb-3 mt-3">
+      <i class="bi bi-arrow-left me-1"></i>Volver a productos
+    </a>
+
+    @if (error) {
+      <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        {{ error }}
+      </div>
+    }
+
+    @if (product(); as p) {
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <div class="text-center mb-4">
+            <i class="bi bi-box-seam display-4" style="color: var(--primary)"></i>
+            <h3 class="fw-bold mt-2">{{ p.name }}</h3>
+            @if (p.category) {
+              <span class="badge fs-6 px-3 py-2" style="background: #e8f0fe; color: var(--primary)">
+                <i class="bi bi-tag me-1"></i>{{ p.category.name }}
+              </span>
+            } @else {
+              <span class="badge bg-secondary fs-6 px-3 py-2">Sin categoría</span>
+            }
+          </div>
+
+          <table class="table table-borderless mb-0">
+            <tbody>
+              <tr>
+                <th class="ps-0" style="width: 100px">ID</th>
+                <td><code>{{ p.id }}</code></td>
+              </tr>
+              <tr>
+                <th class="ps-0">Precio</th>
+                <td class="fw-bold fs-5" style="color: var(--success)">
+                  <i class="bi bi-currency-dollar"></i>{{ p.price }}
+                </td>
+              </tr>
+              <tr>
+                <th class="ps-0">Stock</th>
+                <td>
+                  @if (p.stock <= 0) {
+                    <span class="badge bg-danger fs-6">Sin stock</span>
+                  } @else if (p.stock < 10) {
+                    <span class="badge bg-warning text-dark fs-6">
+                      <i class="bi bi-exclamation-triangle me-1"></i>{{ p.stock }} unidades
+                    </span>
+                  } @else {
+                    <span class="badge bg-success fs-6">
+                      <i class="bi bi-check-circle me-1"></i>{{ p.stock }} unidades
+                    </span>
+                  }
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    } @else {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="mt-2 text-muted">Cargando producto...</p>
+      </div>
+    }
+  </div>
+</div>

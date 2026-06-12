@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "api-productos": {
+      "type": "local",
+      "command": ["npx", "tsx", "mcp/src/index.ts"],
+      "enabled": true,
+      "environment": {
+        "API_C_URL": "http://localhost:3000",
+        "API_C_EMAIL": "admin@mail.com",
+        "API_C_PASSWORD": "12345678"
+      }
+    }
+  }
+}
