@@ -10,6 +10,7 @@ import { TimingMiddleware } from './common/middlewares/timing.middleware';
 import { ConfigModule } from '@nestjs/config';
 import { UserEntity } from './users/user.entity';
 import { AuthModule } from './auth/auth.module';
+import { MailsModule } from './mails/mail.module';
 
 @Module({
 	imports: [
@@ -27,6 +28,7 @@ import { AuthModule } from './auth/auth.module';
 		CategoriesModule,
 		UsersModule,
 		AuthModule,
+		MailsModule,
 	],
 })
 export class AppModule {

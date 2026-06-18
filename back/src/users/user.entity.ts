@@ -12,4 +12,8 @@ export class UserEntity {
 	role!: UserRole;
 	@Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
 	createdAt!: Date;
+	@Column({ type: 'text', nullable: true })
+	verificationToken!: string | null;
+	@Column({ default: false })
+	isVerified!: boolean;
 }

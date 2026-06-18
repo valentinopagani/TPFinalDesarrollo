@@ -21,14 +21,18 @@ const config_1 = require("@nestjs/config");
 const user_entity_1 = require("../user.entity");
 const user_role_enum_1 = require("../user-role.enum");
 const jwt_1 = require("@nestjs/jwt");
+const crypto_1 = require("crypto");
+const mailer_1 = require("@nestjs-modules/mailer");
 let UsersService = class UsersService {
     usersRepo;
     jwtService;
     cfg;
-    constructor(usersRepo, jwtService, cfg) {
+    mailerService;
+    constructor(usersRepo, jwtService, cfg, mailerService) {
         this.usersRepo = usersRepo;
         this.jwtService = jwtService;
         this.cfg = cfg;
+        this.mailerService = mailerService;
     }
     async findAll() {
         return this.usersRepo.find();
@@ -50,18 +54,30 @@ let UsersService = class UsersService {
         const passwordHash = await bcrypt.hash(plainPassword, rounds);
         const countUsers = await this.usersRepo.count();
         const role = countUsers === 0 ? user_role_enum_1.UserRole.ADMIN : user_role_enum_1.UserRole.USER;
+        const verificationToken = (0, crypto_1.randomUUID)();
         const entity = this.usersRepo.create({
             email: email.trim().toLowerCase(),
             passwordHash,
             role,
+            verificationToken,
+            isVerified: false,
         });
         const saved = await this.usersRepo.save(entity);
-        const access_token = this.jwtService.sign({
-            sub: saved.id,
-            role: saved.role,
+        const appUrl = this.cfg.get('APP_URL');
+        const verifyLink = `${appUrl}/auth/verify?token=${verificationToken}`;
+        this.mailerService.sendMail({
+            from: 'paganivalentino06@gmail.com',
+            to: saved.email,
+            subject: 'Verificá tu cuenta',
+            html: `
+      <p>Gracias por registrarte. Hacé clic en el siguiente link para verificar tu cuenta:</p>
+      <a href="${verifyLink}">${verifyLink}</a>
+      <p>Este link es de un solo uso.</p>
+    `,
+        }).catch(e => {
         });
         return {
-            access_token,
+            message: 'Registro exitoso. Revisá tu email para verificar tu cuenta.',
             user: {
                 id: saved.id,
                 email: saved.email,
@@ -69,6 +85,18 @@ let UsersService = class UsersService {
                 createdAt: saved.createdAt,
             },
         };
+    }
+    async verifyEmail(token) {
+        const user = await this.usersRepo.findOne({
+            where: { verificationToken: token },
+        });
+        if (!user) {
+            throw new common_1.NotFoundException('Token inválido o ya utilizado');
+        }
+        user.isVerified = true;
+        user.verificationToken = null;
+        await this.usersRepo.save(user);
+        return { message: 'Email verificado correctamente' };
     }
     async login(email, plainPassword) {
         const user = await this.usersRepo
@@ -103,6 +131,7 @@ exports.UsersService = UsersService = __decorate([
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.UserEntity)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         jwt_1.JwtService,
-        config_1.ConfigService])
+        config_1.ConfigService,
+        mailer_1.MailerService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

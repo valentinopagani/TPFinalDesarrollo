@@ -18,6 +18,8 @@ let UserEntity = class UserEntity {
     passwordHash;
     role;
     createdAt;
+    verificationToken;
+    isVerified;
 };
 exports.UserEntity = UserEntity;
 __decorate([
@@ -40,6 +42,14 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' }),
     __metadata("design:type", Date)
 ], UserEntity.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'text', nullable: true }),
+    __metadata("design:type", Object)
+], UserEntity.prototype, "verificationToken", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: false }),
+    __metadata("design:type", Boolean)
+], UserEntity.prototype, "isVerified", void 0);
 exports.UserEntity = UserEntity = __decorate([
     (0, typeorm_1.Entity)('users')
 ], UserEntity);

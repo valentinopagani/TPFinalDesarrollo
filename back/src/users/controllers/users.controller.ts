@@ -6,6 +6,7 @@ import {
 	Body,
 	UseGuards,
 	Req,
+	Query,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
@@ -20,6 +21,11 @@ export class AuthController {
 	@Post('register')
 	register(@Body() body: { email: string; password: string }) {
 		return this.usersService.register(body.email, body.password);
+	}
+
+	@Get('verify')
+	verifyEmail(@Query('token') token: string) {
+		return this.usersService.verifyEmail(token);
 	}
 
 	@Post('login')

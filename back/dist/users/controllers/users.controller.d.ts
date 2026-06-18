@@ -7,13 +7,16 @@ export declare class AuthController {
         email: string;
         password: string;
     }): Promise<{
-        access_token: string;
+        message: string;
         user: {
             id: string;
             email: string;
             role: UserRole;
             createdAt: Date;
         };
+    }>;
+    verifyEmail(token: string): Promise<{
+        message: string;
     }>;
     login(body: {
         email: string;
@@ -32,6 +35,8 @@ export declare class AuthController {
         email: string;
         role: UserRole;
         createdAt: Date;
+        verificationToken: string | null;
+        isVerified: boolean;
     }>;
 }
 export declare class UsersController {

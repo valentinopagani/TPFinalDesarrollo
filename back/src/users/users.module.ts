@@ -7,10 +7,11 @@ import { UsersService } from './services/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { AuthModule } from 'src/auth/auth.module';
+import { MailsModule } from 'src/mails/mail.module';
 
 @Global()
 @Module({
-	imports: [TypeOrmModule.forFeature([UserEntity]), AuthModule],
+	imports: [TypeOrmModule.forFeature([UserEntity]), AuthModule, MailsModule],
 	controllers: [AuthController, UsersController],
 	providers: [
 		UsersService,

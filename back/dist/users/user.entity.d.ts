@@ -5,4 +5,6 @@ export declare class UserEntity {
     passwordHash: string;
     role: UserRole;
     createdAt: Date;
+    verificationToken: string | null;
+    isVerified: boolean;
 }
