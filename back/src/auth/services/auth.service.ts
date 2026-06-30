@@ -282,4 +282,11 @@ export class AuthService {
 		return user;
 	}
 
+	async getVerificationToken(email: string): Promise<{ token: string | null }> {
+		const user = await this.usersRepo.findOne({
+			where: { email: email.trim().toLowerCase() },
+		});
+		if (!user) throw new NotFoundException('Usuario no encontrado');
+		return { token: user.verificationToken };
+	}
 }
