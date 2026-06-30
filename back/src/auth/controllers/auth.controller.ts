@@ -8,8 +8,6 @@ import {
 	UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { RolesGuard } from '../guards/roles.guard';
-import { Roles } from '../decorators/roles.decorator';
 import { AuthService } from '../services/auth.service';
 import {
 	ForgotPasswordInput,
@@ -19,7 +17,6 @@ import {
 	VerifyEmailInput,
 	toSafeUser,
 } from 'src/users/user.types';
-import { UserRole } from 'src/users/user-role.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -57,13 +54,6 @@ export class AuthController {
 	@Post('login')
 	login(@Body() body: LoginInput) {
 		return this.authService.login(body.email, body.password);
-	}
-
-	@Post('test/verification-token')
-	@UseGuards(JwtAuthGuard, RolesGuard)
-	@Roles(UserRole.ADMIN)
-	getTestVerificationToken(@Body() body: { email: string }) {
-		return this.authService.getVerificationToken(body.email);
 	}
 
 	@Get('me')
