@@ -1,0 +1,33 @@
+<nav class="bottom-nav d-md-none">
+  @if (auth.isAuthenticated()) {
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+      <i class="bi bi-house"></i>
+      <span>Inicio</span>
+    </a>
+    <a routerLink="/products" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+      <i class="bi bi-box"></i>
+      <span>Productos</span>
+    </a>
+    <a routerLink="/categories" routerLinkActive="active">
+      <i class="bi bi-tags"></i>
+      <span>Categorías</span>
+    </a>
+    <a routerLink="/profile" routerLinkActive="active">
+      <i class="bi bi-person"></i>
+      <span>Perfil</span>
+    </a>
+  } @else {
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+      <i class="bi bi-house"></i>
+      <span>Inicio</span>
+    </a>
+    <a routerLink="/login" routerLinkActive="active">
+      <i class="bi bi-box-arrow-in-right"></i>
+      <span>Ingresar</span>
+    </a>
+    <a routerLink="/register" routerLinkActive="active">
+      <i class="bi bi-person-plus"></i>
+      <span>Registro</span>
+    </a>
+  }
+</nav>

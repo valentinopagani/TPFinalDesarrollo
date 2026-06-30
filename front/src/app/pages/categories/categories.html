@@ -1,0 +1,100 @@
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="d-flex justify-content-between align-items-center mb-4 mt-4">
+      <h2 class="fw-bold mb-0">
+        <i class="bi bi-tags me-2" style="color: var(--success)"></i>Categorías
+      </h2>
+    </div>
+
+    @if (error) {
+      <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        {{ error }}
+      </div>
+    }
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h5 class="card-title fw-medium mb-3">
+          <i class="bi bi-plus-circle me-1" style="color: var(--primary)"></i>Nueva categoría
+        </h5>
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="Nombre de la categoría"
+            [(ngModel)]="newName"
+            (keyup.enter)="create()"
+          />
+          <button class="btn btn-primary" (click)="create()">
+            <i class="bi bi-plus-lg me-1 d-md-none"></i>
+            <span class="d-none d-md-inline"><i class="bi bi-plus-lg me-1"></i>Agregar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @if (loading()) {
+      <div class="text-center py-5">
+        <div class="spinner-border" style="color: var(--success)" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="mt-2 text-muted">Cargando categorías...</p>
+      </div>
+    } @else {
+      <div class="row g-3">
+        @for (cat of categories(); track cat.id) {
+          <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-tag-fill me-2" style="color: var(--success)"></i>
+                  <span class="fw-medium">{{ cat.name }}</span>
+                </div>
+                @if (auth.isAdmin()) {
+                  <div class="d-flex gap-1">
+                    <button class="btn btn-sm btn-outline-warning" (click)="openEdit(cat)" title="Editar">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="deleteCategory(cat.id)" title="Eliminar">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        } @empty {
+          <div class="col-12">
+            <div class="text-center py-5 text-muted">
+              <i class="bi bi-tags display-4 d-block mb-2"></i>
+              No hay categorías
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+@if (auth.isAdmin()) {
+  <button class="btn btn-primary btn-fab d-md-none shadow-lg" (click)="create()" title="Nueva categoría">
+    <i class="bi bi-plus-lg"></i>
+  </button>
+}
+
+@if (editingCat(); as cat) {
+  <app-bottom-sheet title="Editar categoría" (close)="cancelEdit()">
+    @if (formError) {
+      <div class="alert alert-danger d-flex align-items-center py-2 small" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        {{ formError }}
+      </div>
+    }
+    <div class="d-flex gap-2">
+      <input class="form-control" [(ngModel)]="editName" (keyup.enter)="saveEdit()" placeholder="Nombre" />
+      <button class="btn btn-success px-4" (click)="saveEdit()">
+        <i class="bi bi-check-lg me-1"></i>Guardar
+      </button>
+    </div>
+  </app-bottom-sheet>
+}

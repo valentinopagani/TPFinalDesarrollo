@@ -1,0 +1,32 @@
+.navbar {
+  box-shadow: none;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  padding: .65rem 0;
+}
+
+.navbar .nav-link {
+  color: var(--gray-600);
+  font-weight: 500;
+  font-size: 1rem;
+  padding: .5rem .85rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+  text-decoration: none;
+  color: var(--primary) !important;
+  background: var(--primary-light);
+}
+
+.navbar .navbar-brand {
+  color: var(--gray-800);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.navbar .navbar-brand:hover { color: var(--primary); }

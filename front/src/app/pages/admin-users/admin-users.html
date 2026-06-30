@@ -1,0 +1,106 @@
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <h2 class="fw-bold mb-4">
+      <i class="bi bi-shield-lock me-2" style="color: var(--warning)"></i>Usuarios
+    </h2>
+
+    @if (error) {
+      <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        {{ error }}
+      </div>
+    }
+
+    <!-- Desktop -->
+    <div class="table-responsive d-none d-md-block">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Registrado</th>
+            <th class="text-end">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users(); track user.id) {
+            <tr>
+              <td>
+                <i class="bi bi-person me-1 text-muted"></i>
+                {{ user.email }}
+              </td>
+              <td>
+                @if (user.role === 'admin') {
+                  <span class="badge" style="background: var(--warning-light); color: #92400e">
+                    <i class="bi bi-shield-check me-1"></i>Admin
+                  </span>
+                } @else {
+                  <span class="badge" style="background: #e0f2fe; color: #0369a1">
+                    <i class="bi bi-person me-1"></i>User
+                  </span>
+                }
+              </td>
+              <td class="text-muted small">{{ user.createdAt | date:'short' }}</td>
+              <td class="text-end">
+                @if (user.id !== auth.user()?.id) {
+                  @if (user.role === 'user') {
+                    <button class="btn btn-sm btn-outline-warning" (click)="changeRole(user.id, 'admin')">
+                      <i class="bi bi-shield-plus me-1"></i>Hacer admin
+                    </button>
+                  } @else {
+                    <button class="btn btn-sm btn-outline-secondary" (click)="changeRole(user.id, 'user')">
+                      <i class="bi bi-person me-1"></i>Hacer user
+                    </button>
+                  }
+                } @else {
+                  <span class="text-muted small">(vos)</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile -->
+    <div class="d-md-none">
+      @for (user of users(); track user.id) {
+        <div class="card shadow-sm mb-3">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <i class="bi bi-person me-1 text-muted"></i>
+                <span class="fw-medium">{{ user.email }}</span>
+              </div>
+              @if (user.role === 'admin') {
+                <span class="badge" style="background: var(--warning-light); color: #92400e">
+                  <i class="bi bi-shield-check me-1"></i>Admin
+                </span>
+              } @else {
+                <span class="badge" style="background: #e0f2fe; color: #0369a1">
+                  <i class="bi bi-person me-1"></i>User
+                </span>
+              }
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">{{ user.createdAt | date:'short' }}</small>
+              @if (user.id !== auth.user()?.id) {
+                @if (user.role === 'user') {
+                  <button class="btn btn-sm btn-outline-warning" (click)="changeRole(user.id, 'admin')">
+                    <i class="bi bi-shield-plus me-1"></i>Admin
+                  </button>
+                } @else {
+                  <button class="btn btn-sm btn-outline-secondary" (click)="changeRole(user.id, 'user')">
+                    <i class="bi bi-person me-1"></i>User
+                  </button>
+                }
+              } @else {
+                <small class="text-muted">(vos)</small>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

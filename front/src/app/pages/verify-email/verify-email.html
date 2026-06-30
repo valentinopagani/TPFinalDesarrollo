@@ -1,0 +1,42 @@
+<div class="row justify-content-center mt-5">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-sm">
+      <div class="card-body p-4 text-center">
+        @switch (status()) {
+          @case ('loading') {
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Verificando...</span>
+            </div>
+            <p class="mt-3 text-muted">Verificando tu email...</p>
+          }
+          @case ('success') {
+            <i class="bi bi-check-circle display-4 text-success"></i>
+            <h3 class="mt-3 fw-bold">Email verificado correctamente</h3>
+            <p class="text-muted">Tu cuenta ya está activa.</p>
+            <a routerLink="/login" class="btn btn-primary w-100 mt-2">
+              <i class="bi bi-box-arrow-in-right me-1"></i>Iniciar sesión
+            </a>
+          }
+          @case ('error') {
+            <i class="bi bi-x-circle display-4 text-danger"></i>
+            <h3 class="mt-3 fw-bold">No se pudo verificar</h3>
+            <p class="text-muted">El link es inválido o expiró.</p>
+            <button
+              class="btn btn-outline-primary w-100 mt-2"
+              (click)="resend()"
+              [disabled]="loading()"
+            >
+              @if (loading()) {
+                <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+              }
+              <i class="bi bi-arrow-repeat me-1"></i>Reenviar verificación
+            </button>
+            <p class="mt-3 text-muted mb-0">
+              <a routerLink="/login">Volver a iniciar sesión</a>
+            </p>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</div>

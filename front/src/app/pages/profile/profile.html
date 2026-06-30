@@ -1,0 +1,178 @@
+<div class="row justify-content-center mt-4">
+  <div class="col-md-7 col-lg-6">
+    @if (auth.user(); as user) {
+      <div class="card shadow-sm mb-4">
+        <div class="card-body p-4">
+          <div class="text-center mb-4">
+            <i class="bi bi-person-circle display-4" style="color: var(--primary)"></i>
+            <h3 class="mt-2 fw-bold">Mi perfil</h3>
+          </div>
+
+          <table class="table table-borderless mb-0">
+            <tbody>
+              <tr>
+                <th class="ps-0" style="width: 120px">ID</th>
+                <td><code>{{ user.id }}</code></td>
+              </tr>
+              <tr>
+                <th class="ps-0">Email</th>
+                <td><i class="bi bi-envelope me-1 text-muted"></i>{{ user.email }}</td>
+              </tr>
+              <tr>
+                <th class="ps-0">Estado</th>
+                <td>
+                  @if (user.isVerified) {
+                    <span class="badge bg-success">
+                      <i class="bi bi-patch-check me-1"></i>Verificado
+                    </span>
+                  } @else {
+                    <span class="badge bg-secondary">
+                      <i class="bi bi-patch-exclamation me-1"></i>No verificado
+                    </span>
+                  }
+                </td>
+              </tr>
+              <tr>
+                <th class="ps-0">Rol</th>
+                <td>
+                  @if (user.role === 'admin') {
+                    <span class="badge bg-warning text-dark">
+                      <i class="bi bi-shield-check me-1"></i>Administrador
+                    </span>
+                  } @else {
+                    <span class="badge bg-info">
+                      <i class="bi bi-person me-1"></i>Usuario
+                    </span>
+                  }
+                </td>
+              </tr>
+              <tr>
+                <th class="ps-0">Registrado</th>
+                <td><i class="bi bi-calendar me-1 text-muted"></i>{{ user.createdAt | date:'medium' }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          @if (!user.isVerified) {
+            <button
+              class="btn btn-outline-primary w-100 mt-2"
+              (click)="resend()"
+              [disabled]="resendLoading()"
+            >
+              @if (resendLoading()) {
+                <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+              }
+              <i class="bi bi-envelope-arrow-up me-1"></i>Reenviar email de verificación
+            </button>
+          }
+
+          <hr />
+          <button class="btn btn-danger w-100" (click)="auth.logout()">
+            <i class="bi bi-box-arrow-right me-1"></i>Cerrar sesión
+          </button>
+        </div>
+      </div>
+
+      <!-- Cambiar contraseña -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body p-4">
+          <h5 class="fw-bold mb-3"><i class="bi bi-key me-1"></i>Cambiar contraseña</h5>
+          <form (ngSubmit)="changePassword()" #pwForm="ngForm">
+            <div class="mb-3">
+              <label for="currentPassword" class="form-label fw-medium">Contraseña actual</label>
+              <input
+                id="currentPassword"
+                type="password"
+                class="form-control"
+                [(ngModel)]="currentPassword"
+                name="currentPassword"
+                required
+                placeholder="••••••••"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="newPassword" class="form-label fw-medium">Nueva contraseña (mín. 8)</label>
+              <input
+                id="newPassword"
+                type="password"
+                class="form-control"
+                [(ngModel)]="newPassword"
+                name="newPassword"
+                required
+                minlength="8"
+                placeholder="••••••••"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="confirmNewPassword" class="form-label fw-medium">Confirmar nueva contraseña</label>
+              <input
+                id="confirmNewPassword"
+                type="password"
+                class="form-control"
+                [(ngModel)]="confirmPassword"
+                name="confirmNewPassword"
+                required
+                placeholder="••••••••"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary w-100" [disabled]="pwForm.invalid || pwLoading()">
+              @if (pwLoading()) {
+                <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+              }
+              Actualizar contraseña
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Cambiar email -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body p-4">
+          <h5 class="fw-bold mb-3"><i class="bi bi-envelope-at me-1"></i>Cambiar email</h5>
+          <form (ngSubmit)="changeEmail()" #emailForm="ngForm">
+            <div class="mb-3">
+              <label for="newEmail" class="form-label fw-medium">Nuevo email</label>
+              <input
+                id="newEmail"
+                type="email"
+                class="form-control"
+                [(ngModel)]="newEmail"
+                name="newEmail"
+                required
+                email
+                placeholder="nuevo@correo.com"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="emailPassword" class="form-label fw-medium">Contraseña actual</label>
+              <input
+                id="emailPassword"
+                type="password"
+                class="form-control"
+                [(ngModel)]="emailPassword"
+                name="emailPassword"
+                required
+                placeholder="••••••••"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary w-100" [disabled]="emailForm.invalid || emailLoading()">
+              @if (emailLoading()) {
+                <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+              }
+              Actualizar email
+            </button>
+          </form>
+        </div>
+      </div>
+    } @else {
+      <div class="card shadow-sm">
+        <div class="card-body text-center py-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="mt-2 text-muted">Cargando perfil...</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>
