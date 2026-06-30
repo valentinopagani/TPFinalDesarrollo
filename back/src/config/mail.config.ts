@@ -10,7 +10,7 @@ export default registerAs('mailconfig',() => {
         },
 				host: process.env.MAIL_HOST || 'localhost',
 				port: Number(process.env.MAIL_PORT) || 1025,
-				secure: true,
+				secure: false,
 				auth:
 					process.env.MAIL_USER && process.env.MAIL_PASS
 						? {

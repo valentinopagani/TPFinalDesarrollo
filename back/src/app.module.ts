@@ -35,7 +35,7 @@ import { MailsModule } from "./mails/mail.module";
           host: cfg.get<string>("DB_HOST", "localhost"),
           port: cfg.get<number>("DB_PORT", 5432),
           username: cfg.get<string>("DB_USER", "postgres"),
-          password: cfg.get<string>("DB_PASSWORD", "postgres"),
+          password: cfg.get<string>("DB_PASSWORD", "1234"),
           database: cfg.get<string>("DB_NAME", "tp_final"),
           entities: [ProductEntity, CategoryEntity, UserEntity],
           synchronize: true,

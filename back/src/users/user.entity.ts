@@ -10,7 +10,7 @@ export class UserEntity {
 	passwordHash!: string;
 	@Column({ type: 'text', default: UserRole.USER })
 	role!: UserRole;
-	@Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+	@Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
 	createdAt!: Date;
 	@Column({ type: 'text', nullable: true })
 	verificationToken!: string | null;
@@ -18,6 +18,6 @@ export class UserEntity {
 	isVerified!: boolean;
 	@Column({ type: 'text', nullable: true })
 	resetPasswordToken!: string | null;
-	@Column({ type: 'datetime', nullable: true })
+	@Column({ type: 'timestamp', nullable: true })
 	resetPasswordExpires!: Date | null;
 }
